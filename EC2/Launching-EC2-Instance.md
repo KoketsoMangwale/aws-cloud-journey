@@ -65,7 +65,8 @@ To launch a Windows EC2 instance in AWS and connect to it using Remote Desktop P
 
 3. **Use a Remote Desktop Client:**
    - Open your Remote Desktop client (e.g., Remote Desktop Connection on Windows).
-   - Enter the public IP address of your EC2 instance.
+   - Enter the public IP address of your EC2 instance in the Computer field
+   - Enter the username in my case it is Administrator in the User name field
    - Click "Connect."
 
 4. **Enter the Credentials:**
