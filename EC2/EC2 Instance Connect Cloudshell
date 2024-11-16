@@ -1,0 +1,41 @@
+ping: ghoogle.com: Name or service not known
+[ec2-user@ip-172-31-21-4 ~]$ ping google.com
+PING google.com (142.251.111.102) 56(84) bytes of data.
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=1 ttl=109 time=1.88 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=2 ttl=109 time=1.68 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=3 ttl=109 time=2.05 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=4 ttl=109 time=2.09 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=5 ttl=109 time=1.99 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=6 ttl=109 time=2.01 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=7 ttl=109 time=1.80 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=8 ttl=109 time=1.98 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=9 ttl=109 time=1.81 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=10 ttl=109 time=2.05 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=11 ttl=109 time=2.05 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=12 ttl=109 time=1.95 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=13 ttl=109 time=2.19 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=14 ttl=109 time=2.03 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=15 ttl=109 time=1.89 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=16 ttl=109 time=2.03 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=17 ttl=109 time=2.07 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=18 ttl=109 time=2.05 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=19 ttl=109 time=2.04 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=20 ttl=109 time=1.96 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=21 ttl=109 time=1.79 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=22 ttl=109 time=1.88 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=23 ttl=109 time=2.00 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=24 ttl=109 time=2.10 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=25 ttl=109 time=2.08 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=26 ttl=109 time=1.68 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=27 ttl=109 time=1.87 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=28 ttl=109 time=1.95 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=29 ttl=109 time=2.14 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=30 ttl=109 time=1.81 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=31 ttl=109 time=1.96 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=32 ttl=109 time=1.96 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=33 ttl=109 time=1.93 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=34 ttl=109 time=1.93 ms
+64 bytes from bk-in-f102.1e100.net (142.251.111.102): icmp_seq=35 ttl=109 time=2.11 ms
+^C
+--- google.com ping statistics ---
+35 packets transmitted, 35 received, 0% packet loss, time 34056ms
