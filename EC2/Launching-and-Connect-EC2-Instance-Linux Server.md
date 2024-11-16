@@ -1,7 +1,7 @@
-# Launching and Connecting to a Windows EC2 Instance via RDP
+# Launching and Connecting to a Linux EC2 Instance
 
 ## Objective
-To launch a Windows EC2 instance in AWS and connect to it using Remote Desktop Protocol (RDP).
+To launch a Windows EC2 instance in AWS and connect to it using browser.
 
 ## Prerequisites
 - An AWS account.
