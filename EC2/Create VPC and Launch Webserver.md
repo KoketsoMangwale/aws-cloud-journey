@@ -1,19 +1,16 @@
-# AWS Auto Scaling Group with Windows Instances
+# Create Custom Virtual Private Cloud (VPC)
 
 ## Objective
-To create a Virtual Private Cloud (VPC) and launch a web server 
-This setup helps maintain high availability by ensuring there are always 2 instances running.
+To create a Virtual Private Cloud (VPC) and launch a web server into the VPC. Your VPC will have public and private subnets configured in two Availability Zones.
 
-To create a Virtual Private Cloud (VPC) and launch a web server, follow this step-by-step guide. This process assumes you're using Amazon Web Services (AWS), though the general principles apply to most cloud providers.
-
----
+This setup helps launch Amazon Web Services (AWS) resources into a virtual network that you defined. This virtual network closely resembles a traditional network that you would operate in your own data center, with the benefits of using the scalable infrastructure of AWS. You can create a VPC that spans multiple Availability Zones..
 
 ### **Step 1: Create a VPC**
 1. **Log in to AWS Management Console**:
    - Go to the **VPC Dashboard**.
 
 2. **Create the VPC**:
-   - Click **Create VPC**.
+   - Click **Create VPC**, then VPC and more.
    - Provide a name tag for your VPC (e.g., `MyVPC`).
    - Specify an IPv4 CIDR block (e.g., `10.0.0.0/16`).
    - For IPv6, choose **No IPv6 CIDR block** (optional).
@@ -97,7 +94,13 @@ To create a Virtual Private Cloud (VPC) and launch a web server, follow this ste
 2. **Associate with the Instance**:
    - Attach the Elastic IP to your EC2 instance for a static IP.
 
----
 
-You now have a working VPC and a running web server! Let me know if you need help with additional configurations, like SSL/TLS or custom domain integration.## Skills
-- 
+## Skills ##
+
+- Create a VPC and configure VPC.
+- Create and add subnets to a VPC - Having subnets in multiple Availability Zones within a VPC is useful for deploying solutions that provide High Availability. 
+- Configure a security group.
+- Launch an EC2 instance into a VPC
+
+  ## NOTES **
+  Internet gateway - This means that internet-bound traffic will be sent straight to the internet via this Internet Gateway.
