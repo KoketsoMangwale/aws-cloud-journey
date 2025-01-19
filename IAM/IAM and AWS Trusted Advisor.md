@@ -19,7 +19,9 @@
 
 As shown below, there are 2 critical recommendations: **MFA on Root Account** and **Security Groups - Specific Ports Unrestricted**. 
 You can expand on the recomendations to 
-ADD IMAGE
+
+![Alt text](URL_or_path_to_image)
+
 ### Step 2: Apply recommended actions
 
 ### Step 2.1: Modify Security Groups with Unrestricted Ports
