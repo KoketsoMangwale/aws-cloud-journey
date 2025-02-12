@@ -22,7 +22,7 @@ You can expand on the recomendations to
 
 ![Alt text](IAM/TrusterAdvisorRecommendations.png)
 
-![Alt text](SecurityAction.png)
+![Alt text](IAM/SecurityAction.png)
 
 ### Step 2: Apply recommended actions
 
