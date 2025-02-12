@@ -1,7 +1,9 @@
-# Configuring S3 Cross-Region Replication (CRR)
+# Static Website Hosting with Amazon S3
 
-This guide outlines the steps to configure **Cross-Region Replication (CRR)** for an Amazon S3 bucket.
-
+This guide outlines the steps to configure **Static Website Hosting** in an Amazon S3 bucket.
+- Host a static website by using Amazon S3
+- Prevent the accidental overwrite and deletion of website objects
+- Implement a data lifecycle strategy in Amazon S3
 ---
 
 ## Prerequisites
