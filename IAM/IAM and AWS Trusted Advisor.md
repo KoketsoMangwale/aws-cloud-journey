@@ -20,9 +20,9 @@
 As shown below, there are 2 critical recommendations: **MFA on Root Account** and **Security Groups - Specific Ports Unrestricted**. 
 You can expand on the recomendations to 
 
-![Alt text](IAM/TrusterAdvisorRecommendations.png)
+![Alt text](TrusterAdvisorRecommendations.png)
 
-![Alt text](IAM/SecurityAction.png)
+![Alt text](SecurityAction.png)
 
 ### Step 2: Apply recommended actions
 
@@ -35,7 +35,7 @@ In this step, you will remove the inbound security group rule allowing traffic o
 3. Scroll down to view additional details.
 4. In the **Security Groups** table, identify any groups marked as **Red** in the Status column.
 
-![Alt text](IAM/SecurityGroups.png)
+![Alt text](SecurityGroups.png)
 
 Resolve Port 21 Issue
 
@@ -46,9 +46,9 @@ Resolve Port 21 Issue
 5. Locate the **Custom TCP rule** for port 21 and click **Delete**.
 6. Select **Save rules** at the bottom of the panel.
 
-![Alt text](IAM/InboundRuleChange.png)
+![Alt text](InboundRuleChange.png)
 
-![Alt text](IAM/DeleteInboundRule.png)
+![Alt text](DeleteIndoundRule.png)
 
 ### Step 2.2: Limit Inbound Traffic to a Specific Instance
 In this step, you will restrict access to a security group, allowing inbound traffic only from a specific Amazon EC2 instance.
