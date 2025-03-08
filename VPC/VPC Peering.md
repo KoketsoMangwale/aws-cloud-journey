@@ -10,6 +10,8 @@
 ## Overview
 This guide walks you through creating a Virtual Private Cloud (VPC) peering connection between two VPCs: **Lab VPC** and **Shared VPC**. Lab VPC hosts an inventory application on an EC2 instance in a public subnet, while Shared VPC hosts a database instance in a private subnet.
 
+
+![Alt text](images/module-8-guided-lab-final-architecture-vpc-peering.png)
 ---
 
 ## Tasks
