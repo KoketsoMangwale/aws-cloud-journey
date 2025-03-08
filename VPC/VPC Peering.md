@@ -1,11 +1,6 @@
 # VPC Peering - Connecting VPC's
-## VPC Peering between Marketing and Finance Data
 
-### Create Peering Connection
-
-### Accept Requested Connection
-
-# VPC Peering Connection Setup
+## VPC Peering Connection Setup between Inventory Application and Database
 
 ## Overview
 This guide walks you through creating a Virtual Private Cloud (VPC) peering connection between two VPCs: **Lab VPC** and **Shared VPC**. Lab VPC hosts an inventory application on an EC2 instance in a public subnet, while Shared VPC hosts a database instance in a private subnet.
@@ -26,6 +21,7 @@ This guide walks you through creating a Virtual Private Cloud (VPC) peering conn
      - **Name (optional):** Lab-Peer
      - **VPC ID (Requester):** Lab VPC
      - **VPC ID (Accepter):** Shared VPC
+   - The accepter VPC is within the same account and region
    - Choose **Create peering connection**.
 
 3. **Accept the Peering Request:**
