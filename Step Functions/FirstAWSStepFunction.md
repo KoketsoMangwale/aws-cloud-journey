@@ -115,6 +115,11 @@ def lambda_handler(event, context):
 
 ✅ You should see your execution succeed and output `"Hello, World from Lambda!"`.
 
+
+![Alt text](step-function-execution.png)
+
+**Step Functions Execution States**
+
 ---
 
 ## ✅ What's Next?
