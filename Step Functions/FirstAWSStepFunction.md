@@ -71,8 +71,32 @@ def lambda_handler(event, context):
 
 > 📝 Replace `<your-region>` and `<your-account-id>` accordingly.
 
-5. Under **Permissions**, choose **Create a new IAM role** (or select an existing one with Step Functions permissions).
-
+5. Under **Permissions** under Config **_(State machine configuration)_**, choose **Create a new IAM role** (or select an existing one with Step Functions permissions).
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:us-east-1:<your-account-id>:function:HelloWorldFunction:*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:us-east-1:<your-account-id>:function:HelloWorldFunction"
+            ]
+        }
+    ]
+}
+```
 6. Name your state machine: `HelloWorldStateMachine`
 
 7. Click **Create state machine**.
