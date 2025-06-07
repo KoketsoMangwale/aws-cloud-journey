@@ -40,3 +40,74 @@ Ensure that:
   "Action": "s3:GetObject",
   "Resource": "arn:aws:s3:::complimate-docs/*"
 }
+```
+
+## ⚙️ 3. Set Up Macie Classification Job (via Lambda)
+
+Create a Macie Classification Job for newly uploaded S3 objects.
+
+**Example Compliance Scan Lambda Function**:
+```python
+{
+import boto3
+
+def start_macie_scan(bucket_name, object_key, tenant_id):
+    client = boto3.client('macie2')
+    response = client.create_classification_job(
+        jobType='ONE_TIME',
+        name=f"CompliMateScan-{tenant_id}-{object_key.split('/')[-1]}",
+        s3JobDefinition={
+            'bucketDefinitions': [
+                {
+                    'accountId': 'YOUR_AWS_ACCOUNT_ID',
+                    'buckets': [bucket_name]
+                }
+            ],
+            'scoping': {
+                'includes': {
+                    'and': [
+                        {
+                            'simpleScopeTerm': {
+                                'comparator': 'STARTS_WITH',
+                                'key': 'OBJECT_KEY',
+                                'values': [object_key]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        customDataIdentifierIds=[],
+        tags={'tenantId': tenant_id}
+    )
+    return response['jobId']
+```
+## 🔐 4. IAM Role Permissions
+
+Lambda functions or services calling Macie must have the following permissions:
+
+```json
+{
+  "Effect": "Allow",
+  "Action": [
+    "macie2:CreateClassificationJob",
+    "macie2:DescribeClassificationJob",
+    "macie2:GetFindings",
+    "macie2:ListFindings"
+  ],
+  "Resource": "*"
+}
+```
+## 📁 5. Viewing Macie Findings
+
+- Go to the Macie Dashboard to view alerts, findings, and severity levels.
+- Use Macie > Findings filters to search by:
+    - Job ID
+    - S3 object key
+    - Tenant ID (if tagged)
+ 
+## 💡 Best Practices
+
+- Use tags (e.g., tenantId) on Macie jobs for multi-tenant traceability.
+- Export Macie findings to CloudWatch Logs, S3, or OpenSearch.
+- Automate job triggering via S3 Event Notifications or Step Functions.
