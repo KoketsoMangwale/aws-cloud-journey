@@ -13,7 +13,7 @@ This project uses **GitHub Actions** and **AWS OIDC (OpenID Connect)** to automa
 
 ## 🔐 OIDC Setup on AWS
 
-### 1. Create an IAM Role with OIDC Trust
+### 1. Create an IAM Role (Web Identity) with OIDC Trust
 
 Create a new IAM role with the following trust policy:
 
@@ -36,3 +36,41 @@ Create a new IAM role with the following trust policy:
     }
   ]
 }
+```
+Add S3 Acess Permissions to the Role
+
+
+## ⚙️ GitHub Actions Workflow
+Create a workflow file at `.github/workflows/deploy.yml`
+
+```
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/<ROLE_NAME>
+          aws-region: us-east-1
+
+      - name: Sync static site to S3
+        run: |
+          aws s3 sync . s3://your-bucket-name --delete
+
+```
