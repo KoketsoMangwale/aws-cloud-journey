@@ -71,7 +71,7 @@ jobs:
 
       - name: Sync static site to S3
         run: |
-          aws s3 sync . s3://your-bucket-name --delete
+          aws s3 sync . s3://your-bucket-name --delete --exclude ".git/*"
 
 ```
 - `Workflow name`: Deploy to S3
