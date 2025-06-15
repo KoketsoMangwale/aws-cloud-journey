@@ -37,7 +37,7 @@ Create a new IAM role with the following trust policy:
   ]
 }
 ```
-Add S3 Acess Permissions to the Role
+Add S3 Access Permissions to the Role
 
 
 ## ⚙️ GitHub Actions Workflow
@@ -74,3 +74,14 @@ jobs:
           aws s3 sync . s3://your-bucket-name --delete
 
 ```
+- `Workflow name`: Deploy to S3
+- `Trigger Conditions`:  this workflow is run only when a push is made to the main branch
+
+| Step                        | Purpose                                  |
+| --------------------------- | ---------------------------------------- |
+| `on: push`                  | Triggers deploy on `main` branch push    |
+| `permissions`               | Grants minimum necessary rights for OIDC |
+| `checkout`                  | Pulls code from your repo                |
+| `configure-aws-credentials` | Assumes IAM role securely via OIDC       |
+| `aws s3 sync`               | Uploads your site to the S3 bucket       |
+
