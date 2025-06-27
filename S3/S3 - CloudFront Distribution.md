@@ -28,19 +28,22 @@ This Lambda function:
 * Gets the ZIP file from `maru-uploads/<user_id>/site.zip`
 * Unzips its content in memory
 * Saves files to both `maru-content` and `maru-backup`
+* Automatically registers the tenant in CloudFront SaaS Manager
 
-**Updated Sample Logic (Python):**
-
-```python
+**Lambda Code (Python):**
+```
 import boto3
 import zipfile
 import io
 import json
 
 s3 = boto3.client('s3')
+cloudfront = boto3.client('cloudfront')
 UPLOAD_BUCKET = 'maru-uploads'
 CONTENT_BUCKET = 'maru-content'
 BACKUP_BUCKET = 'maru-backup'
+SAAS_SERVICE_NAME = 'maru-sites'
+SAAS_DOMAIN_SUFFIX = 'maruhosting.co.za'
 
 def lambda_handler(event, context):
     user_id = event['queryStringParameters']['user_id']
@@ -64,15 +67,34 @@ def lambda_handler(event, context):
             # Upload to backup bucket
             s3.put_object(Bucket=BACKUP_BUCKET, Key=key, Body=file_content)
 
-    website_url = f"https://{user_id}.maruhosting.co.za"
-    return {
-        'statusCode': 200,
-        'body': json.dumps({
-            'message': 'ZIP processed and site deployed.',
-            'website_url': website_url
-        })
-    }
-```
+    # Register tenant in SaaS Manager
+    custom_domain = f"{user_id}.{SAAS_DOMAIN_SUFFIX}"
+    origin_path = f"/{user_id}"
+    description = f"Maru tenant for {user_id}"
+
+    try:
+        cloudfront.register_tenant(
+            DomainName=custom_domain,
+            OriginPath=origin_path,
+            ServiceName=SAAS_SERVICE_NAME,
+            Description=description
+        )
+        website_url = f"https://{custom_domain}"
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': 'ZIP deployed and tenant registered.',
+                'website_url': website_url
+            })
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'error': f"Deployment succeeded but tenant registration failed: {str(e)}"
+            })
+        }
+
 
 ---
 
@@ -83,21 +105,7 @@ def lambda_handler(event, context):
 
 ---
 
-#### Step 4: CloudFront SaaS Manager Setup
-
-* CloudFront points to `maru-content.s3.amazonaws.com`
-* Use `/user_id/` as origin path for each tenant
-* Register tenant using AWS CLI or Boto3
-
-```bash
-aws cloudfront saas-manager register-tenant \
-  --domain-name user123.maruhosting.co.za \
-  --origin-path /user123
-```
-
----
-
-#### Step 5: Final Response from Lambda
+#### Step 4: Final Response from Lambda
 
 ```python
 return {
@@ -116,53 +124,10 @@ return {
 * ZIPs are uploaded to a staging S3 bucket (`maru-uploads`)
 * Lambda reads the ZIP, unpacks and deploys to the content bucket
 * Backups are saved
-* A SaaS subdomain is returned
+* Tenant is automatically registered via SaaS Manager
+* A SaaS subdomain is returned (e.g., https://user123.maruhosting.co.za)
 
 ---
-
-### 🔄 Additional Lambda Function: Register SaaS Tenant with Parameters
-
-This Lambda function registers a tenant in CloudFront SaaS Manager with configurable parameters such as subdomain, origin path, and optional description.
-
-**Lambda Code (Python):**
-
-```python
-import boto3
-import json
-
-cloudfront = boto3.client('cloudfront')
-SAAS_SERVICE_NAME = 'maru-sites'
-
-def lambda_handler(event, context):
-    try:
-        params = event['queryStringParameters']
-        user_id = params['user_id']
-        custom_domain = params.get('custom_domain', f"{user_id}.maruhosting.co.za")
-        origin_path = params.get('origin_path', f"/{user_id}")
-        description = params.get('description', f"Maru tenant for {user_id}")
-
-        response = cloudfront.register_tenant(
-            DomainName=custom_domain,
-            OriginPath=origin_path,
-            ServiceName=SAAS_SERVICE_NAME,
-            Description=description
-        )
-
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'Tenant registered successfully.',
-                'domain': custom_domain,
-                'origin_path': origin_path
-            })
-        }
-
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        }
-```
 
 * This version supports user-defined values for subdomain and path
 * Optional `description` field helps track tenants internally
