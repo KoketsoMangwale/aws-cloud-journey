@@ -7,7 +7,7 @@ It is **step-by-step beginner‑friendly** for building a multi-tenant serverles
 
 * AWS account (free tier OK)
 * AWS CLI configured
-* \~1 GB free disk on CloudShell or local
+* \~16 GB free disk on CloudShell overlay directory
 * Tools: `git`, `sam`, `node`, `npm`, `kubectl` (only if Kubernetes is used)
 
 ---
@@ -19,11 +19,195 @@ git clone https://github.com/aws-samples/aws-saas-factory-serverless-workshop.gi
 cd aws-saas-factory-serverless-workshop
 ```
 
+I had the issue with limited disk size so I switched to this directory before cloning the repository.
+```
+cd /tmp
+```
+
 This repo includes labs 1–4 that cover onboarding, multi-tenancy, pooled data models, and isolation ([docs.aws.amazon.com][2], [github.com][1]).
 
 ---
 
 ### 🔧 Step 2: Provision Infrastructure
+
+
+### 🔹 2.1 Set Up a Bucket (once per region)
+
+```bash
+export BUCKET=my-saas-workshop-bucket
+aws s3 mb s3://$BUCKET
+curl -O https://s3.us-west-2.amazonaws.com/aws-saas-factory-serverless-saas-workshop-us-west-2/workshop.template
+aws s3 cp workshop.template s3://$BUCKET/
+```
+
+## 🧠 Understanding the Linux & AWS CLI Commands
+
+You are creating an S3 bucket, uploading a CloudFormation template, and then using that template to create AWS resources.
+
+##### `export BUCKET=my-saas-workshop-bucket`
+
+### 🧾 What it does:
+
+* This creates a **temporary environment variable** called `BUCKET` and assigns it the value `my-saas-workshop-bucket`. (Make sure the bucket name is unique)
+
+### 🧠 Why it's useful:
+
+* It allows you to use `$BUCKET` as a shortcut instead of typing the full bucket name again and again in future commands.
+
+### 💡 Example:
+
+```bash
+echo $BUCKET
+```
+
+Will return:
+
+```
+my-saas-workshop-bucket
+```
+
+---
+
+#### `aws s3 mb s3://$BUCKET`
+
+### 🧾 What it does:
+
+* `aws s3 mb` = **Make Bucket** — this command **creates a new S3 bucket**.
+* `s3://$BUCKET` = this uses the value of the `BUCKET` variable you just set.
+
+### 💡 Example:
+
+If `$BUCKET` is `my-saas-workshop-bucket`, then the command becomes:
+
+```bash
+aws s3 mb s3://my-saas-workshop-bucket
+```
+
+✅ After running, you should see:
+
+```
+make_bucket: my-saas-workshop-bucket
+```
+
+🟡 **Note:** Bucket names must be globally unique. If someone else already used that name, pick a unique one like:
+
+```bash
+export BUCKET=my-saas-workshop-bucket-2025-koketso
+```
+
+---
+
+#### `curl -O https://.../workshop.template .`
+
+### 🧾 What it does:
+
+* This will download the file `workshop.template` to your current directory (e.g., /tmp).
+* `https://...` = this is the URL of the workshop template stored publicly in S3
+
+### ✅ This downloads the `workshop.template` file into your current directory.
+
+---
+
+#### `aws s3 cp workshop.template s3://$BUCKET/`
+
+### 🧾 What it does:
+
+* This **uploads** the `workshop.template` you just downloaded to your own S3 bucket.
+
+### 💡 Example:
+
+```bash
+aws s3 cp workshop.template s3://my-saas-workshop-bucket/
+```
+
+✅ You’ll see something like:
+
+```
+upload: ./workshop.template to s3://my-saas-workshop-bucket/workshop.template
+```
+
+---
+### 🔹 2.2 Create and Deploy CludFormation Stack
+
+###### `aws cloudformation create-stack \ ...`
+
+This command **deploys the stack** using CloudFormation.
+
+### 💥 Let's break it down:
+
+```bash
+aws cloudformation create-stack \
+  --stack-name saas-workshop \
+  --template-url https://$BUCKET.s3.amazonaws.com/workshop.template \
+  --parameters ParameterKey=EEAssetsBucket,ParameterValue=$BUCKET \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+### ✅ What each line means:
+
+| Part                                                                | Meaning                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `aws cloudformation create-stack`                                   | Start creating a CloudFormation stack                               |
+| `--stack-name saas-workshop`                                        | Give your stack a name (so you can manage/delete it later)          |
+| `--template-url https://$BUCKET.s3.amazonaws.com/workshop.template` | Tells CloudFormation where to find your template                    |
+| `--parameters ParameterKey=EEAssetsBucket,ParameterValue=$BUCKET`   | Passes input parameters (the bucket name) to the template           |
+| `--capabilities CAPABILITY_NAMED_IAM`                               | Allows CloudFormation to create IAM roles (needed for Lambda, etc.) |
+
+✅ If it runs successfully, you'll see output like:
+
+```
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/saas-workshop/..."
+}
+```
+
+🟡 **Note:** If it fails, it might be because:
+
+* The bucket name is already taken (use a unique one).
+* You didn’t upload the template.
+* You don’t have IAM permissions.
+
+---
+
+## 🧠 Final Notes for Beginners
+
+| Command                           | What it does                                        |
+| --------------------------------- | --------------------------------------------------- |
+| `export`                          | Defines a variable for use in your terminal session |
+| `$BUCKET`                         | References the value of a variable                  |
+| `aws s3 mb`                       | Makes a bucket                                      |
+| `aws s3 cp`                       | Copies files to/from S3                             |
+| `aws cloudformation create-stack` | Deploys AWS resources using a template              |
+
+
+### 🔹 2.3. Upload CloudFormation Template
+
+```bash
+aws s3 cp workshop.template s3://$BUCKET_NAME/
+```
+
+> If `workshop.template` is not already in the repo, you can download it:
+
+```bash
+curl -O https://s3.us-west-2.amazonaws.com/aws-saas-factory-serverless-saas-workshop-us-west-2/workshop.template
+aws s3 cp workshop.template s3://$BUCKET_NAME/
+```
+
+---
+
+### 🔹 2.4. Deploy the Stack via CloudFormation
+
+```bash
+aws cloudformation create-stack \
+  --stack-name saas-workshop \
+  --template-url https://$BUCKET_NAME.s3.amazonaws.com/workshop.template \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+---
+
+### 🔹
+
 
 Use CloudFormation to launch the stack:
 
