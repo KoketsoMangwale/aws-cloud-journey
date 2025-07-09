@@ -16,7 +16,7 @@ It is **step-by-step beginner‑friendly** for building a multi-tenant serverles
 
 ```bash
 git clone https://github.com/aws-samples/aws-saas-factory-serverless-workshop.git
-cd aws-saas-factory-serverless-workshop
+cd aws-saas-factory-serverless-workshop/lab1
 ```
 
 I had the issue with limited disk size so I switched to this directory before cloning the repository.
